@@ -6,6 +6,8 @@ const port = process.env.PORT || 5000;
 
 app.use(cors())
 
+app.use(express.json()) // 4 modify data & resend to client
+
 // 1. create data & server
 const users = [
     {id: 1, name: 'Ashraful Haque', email: 'vselfnet@gmail.com'},
@@ -26,6 +28,13 @@ app.get('/users', (req, res) => {
 app.post('/users', (req, res) => {
     console.log('Request Hitting from Client...')
     console.log(req.body)
+
+    // 4 modify & resend to client
+    const newUser = req.body;
+    newUser.id = users.length +1;
+    users.push(newUser);
+    res.send(newUser);
+    console.log(newUser)
 })
 app.listen(port, (req, res) => {
     console.log(`Users Server is Running on Port: ${port}`)
